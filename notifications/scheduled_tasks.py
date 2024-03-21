@@ -6,6 +6,15 @@ import os
 import smtplib
 from email.mime.text import MIMEText
 
+
+def start_scheduling():
+    schedule.every(5).seconds.do(check_stock_and_send_email)
+
+    print('Starting scheduled tasks...')
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
 # Load environment variables
 load_dotenv()
 
@@ -40,10 +49,3 @@ def send_email(product):
             server.sendmail(email_address, recipient, msg.as_string())
     except Exception as e:
         print(f"Failed to send email: {e}")
-
-schedule.every(10).seconds.do(check_stock_and_send_email)
-
-print("Starting scheduled tasks...")
-while True:
-    schedule.run_pending()
-    time.sleep(1)
