@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-def register_till_number(request):
+def lipa_na_mpesa_online(request):
     access_token = "zaYtJtX9AD6ncIShL7IbgROwHXCYfxr40lNgDawF4FBMJlcD" # Updated with your Consumer Key
     api_url = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl"
     headers = {"Authorization": f"Bearer {access_token}"}
