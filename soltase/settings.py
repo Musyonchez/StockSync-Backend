@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-7^(+euc6o&w=3ugqt_29egku-*ytgky%ys69$+3@el3zfi5y79
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['https://stocksync-backend.onrender.com']
 
 # Application definition
 
