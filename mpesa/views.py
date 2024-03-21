@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 def register_till_number(request):
     access_token = "zaYtJtX9AD6ncIShL7IbgROwHXCYfxr40lNgDawF4FBMJlcD" # Updated with your Consumer Key
     api_url = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl"
-    headers = {"Authorization": "Bearer %s" % access_token}
+    headers = {"Authorization": f"Bearer {access_token}"}
     request_data = {
         "ShortCode": "4225734", # Updated with your Till Number
         "ResponseType": "Completed",
