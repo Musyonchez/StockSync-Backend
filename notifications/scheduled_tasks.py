@@ -8,7 +8,7 @@ from email.mime.text import MIMEText
 
 
 def start_scheduling():
-    schedule.every(5).seconds.do(check_stock_and_send_email)
+    schedule.every(23).hours.do(check_stock_and_send_email)
 
     print('Starting scheduled tasks...')
     while True:
