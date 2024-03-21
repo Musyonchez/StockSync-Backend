@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-7^(+euc6o&w=3ugqt_29egku-*ytgky%ys69$+3@el3zfi5y79
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://stocksync-backend.onrender.com']
+ALLOWED_HOSTS = ['stocksync-backend.onrender.com']
 
 # Application definition
 
@@ -123,10 +123,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
