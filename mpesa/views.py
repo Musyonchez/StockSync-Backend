@@ -24,11 +24,9 @@ def lipa_na_mpesa_online(request):
         "ValidationURL": "https://stocksync-backend.onrender.com/C2B-VALIDATION/" # Updated Validation URL
     }
 
-    # Use contextlib.suppress to catch and ignore the exception
-    with contextlib.suppress(requests.exceptions.RequestException):
-        response = requests.post(api_url, json=request_data, headers=headers)
-        response.raise_for_status() # Raises an HTTPError if the response status is 4xx or 5xx
-        
+    response = requests.post(api_url, headers=headers, json=request_data)
+    response.raise_for_status() # Raises an HTTPError if the response status is 4xx or 5xx
+    print("c2b response", response)
     if response.status_code == 200:
         return HttpResponse('success')
     else:
@@ -39,6 +37,7 @@ def lipa_na_mpesa_online(request):
 
 @csrf_exempt
 def c2b_validation(request):
+    print("c2b_validation")
     if request.method != 'POST':
         return HttpResponse(status=405) # Method not allowed
     # Extract transaction details from the request
@@ -60,6 +59,7 @@ def c2b_validation(request):
 
 @csrf_exempt
 def c2b_confirmation(request):
+    print("c2b_confirmation")
     if request.method != 'POST':
         return HttpResponse(status=405) # Method not allowed
     # Extract transaction details from the request
