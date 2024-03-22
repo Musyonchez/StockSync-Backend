@@ -14,23 +14,34 @@ def lipa_na_mpesa_online(request):
     consumer_secret = os.getenv("CONSUMER_SECRET")
 
     # The M-Pesa OAuth endpoint
-    oauth_url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
+    access_token_url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
 
     # Make a request to the OAuth endpoint to get an access token
 
     headers = {'Content-Type': 'application/json'}
     auth = (consumer_key, consumer_secret)
     
-    # Extract the access token from the response
+    # # Extract the access token from the response
     try:
-        response = requests.get(oauth_url, headers=headers, auth=auth)
+        response = requests.get(access_token_url, headers=headers, auth=auth)
         response.raise_for_status()  # Raise exception for non-2xx status codes
         access_token = response.json().get("access_token")
+        print("acces Token", access_token)
     except json.JSONDecodeError:
         # Handle the error, e.g., log the error and return an appropriate response
         print("Error decoding JSON")
         return HttpResponse('Error decoding JSON', status=500)
 
+    # try:
+    #     response = requests.get(access_token_url, headers=headers, auth=auth)
+    #     response.raise_for_status()  # Raise exception for non-2xx status codes
+    #     result = response.json()
+    #     access_token = result['access_token']
+    #     print("acces Token", access_token)
+    #     return JsonResponse({'access_token': access_token})
+    # except requests.exceptions.RequestException as e:
+    #     return JsonResponse({'error': str(e)})
+    
     api_url = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl"
     headers = {"Authorization": f"Bearer {access_token}"}
     request_data = {
