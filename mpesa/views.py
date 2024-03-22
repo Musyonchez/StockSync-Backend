@@ -6,44 +6,17 @@ from django.views.decorators.csrf import csrf_exempt
 import contextlib # Import contextlib
 import os
 from requests.auth import HTTPBasicAuth
+from .access_token_utils import get_access_token
 
 
 def lipa_na_mpesa_online(request):
-    # Your M-Pesa API credentials
-    consumer_key = os.getenv("CONSUMER_KEY")
-    consumer_secret = os.getenv("CONSUMER_SECRET")
-
-    # The M-Pesa OAuth endpoint
-    access_token_url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
-
-    # Make a request to the OAuth endpoint to get an access token
-
-    headers = {'Content-Type': 'application/json'}
-    auth = (consumer_key, consumer_secret)
-    
-    # # Extract the access token from the response
-    try:
-        response = requests.get(access_token_url, headers=headers, auth=auth)
-        response.raise_for_status()  # Raise exception for non-2xx status codes
-        access_token = response.json().get("access_token")
-        print("acces Token", access_token)
-    except json.JSONDecodeError:
-        # Handle the error, e.g., log the error and return an appropriate response
-        print("Error decoding JSON")
-        return HttpResponse('Error decoding JSON', status=500)
-
-    # try:
-    #     response = requests.get(access_token_url, headers=headers, auth=auth)
-    #     response.raise_for_status()  # Raise exception for non-2xx status codes
-    #     result = response.json()
-    #     access_token = result['access_token']
-    #     print("acces Token", access_token)
-    #     return JsonResponse({'access_token': access_token})
-    # except requests.exceptions.RequestException as e:
-    #     return JsonResponse({'error': str(e)})
+    access_token = get_access_token()
+    if access_token is None:
+        return HttpResponse('Error getting access token', status=500)
     
     api_url = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl"
     headers = {"Authorization": f"Bearer {access_token}"}
+    print("acces Token", access_token)
     request_data = {
         "ShortCode": (os.getenv("SHORT_CODE")), # Updated with your Till Number
         "ResponseType": "Completed",
