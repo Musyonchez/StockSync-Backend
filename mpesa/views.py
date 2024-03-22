@@ -20,7 +20,13 @@ def lipa_na_mpesa_online(request):
     response = requests.get(oauth_url, auth=HTTPBasicAuth(consumer_key, consumer_secret))
 
     # Extract the access token from the response
-    access_token = response.json().get("access_token")
+    try:
+        access_token = response.json().get("access_token")
+    except json.JSONDecodeError:
+        # Handle the error, e.g., log the error and return an appropriate response
+        print("Error decoding JSON")
+        return HttpResponse('Error decoding JSON', status=500)
+
     api_url = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl"
     headers = {"Authorization": f"Bearer {access_token}"}
     request_data = {
